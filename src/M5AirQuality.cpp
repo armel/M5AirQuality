@@ -50,7 +50,7 @@ void setup() {
   viewUI();
 
   // Get temperature offset
-  temperatureOffset = getTemperatureOffset();
+  //temperatureOffset = getTemperatureOffset();
 
   // Init Sensor
   initSensor();
