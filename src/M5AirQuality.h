@@ -36,7 +36,7 @@ const int16_t SCD_ADDRESS = 0x62;
 // Variables
 uint16_t brightness  = BRIGHTNESS;
 uint16_t batteryLevelOld = 1024;
-uint16_t colorOffset = 0;
+uint16_t colorOffset = 16 + 64 * 0 + 8 * 0 + 32;
 
 boolean batteryCharginglOld = true;
 float temperatureOffset;

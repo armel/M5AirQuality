@@ -31,6 +31,8 @@ void viewUI() {
   M5.Displays(0).drawString("Temperature", 90, 165);
   M5.Displays(0).setTextColor(TFT_ORANGE, TFT_SCREEN_BG);
   M5.Displays(0).drawString("Humidity", 250, 165);
+  M5.Displays(0).setTextColor(TFT_WHITE, TFT_SCREEN_BG);
+  M5.Displays(0).drawString("V" + String(VERSION) + " by " + String(AUTHOR), 222, 230);
 }
 
 // View battery
@@ -99,7 +101,17 @@ void initSensor() {
   Wire.endTransmission();
 
   // Wait for first measurement to be finished
-  delay(5000);
+  M5.Displays(0).setFont(&arial6pt7b);
+  M5.Displays(0).setTextColor(TFT_WHITE, TFT_SCREEN_BG);
+  M5.Displays(0).setTextDatum(CC_DATUM);
+  M5.Displays(0).setTextPadding(180);
+
+  for (uint8_t i = 0; i < 5; i++) {
+    M5.Displays(0).drawString("Please wait - Init CO2 Sensor", 160, 90);
+    delay(500);
+    M5.Displays(0).drawString("", 160, 90);
+    delay(500);
+  }
 }
 
 // Get temperature offset
