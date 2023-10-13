@@ -143,16 +143,16 @@ void loop() {
 
     if (co2 < 1000) {
       M5.Displays(0).fillRect(16 + 64 * 0 + 8 * 0, 100, 64, 2, TFT_WHITE);
-      colorOffset = 16 + 64 * 0 + 8 * 0;
+      colorOffset = 16 + 64 * 0 + 8 * 0 + 8;
     } else if (co2 < 2000) {
       M5.Displays(0).fillRect(16 + 64 * 1 + 8 * 1, 100, 64, 2, TFT_WHITE);
-      colorOffset = 16 + 64 * 1 + 8 * 1;
+      colorOffset = 16 + 64 * 1 + 8 * 1 + 8;
     } else if (co2 < 3000) {
       M5.Displays(0).fillRect(16 + 64 * 2 + 8 * 2, 100, 64, 2, TFT_WHITE);
-      colorOffset = 16 + 64 * 2 + 8 * 2;
+      colorOffset = 16 + 64 * 2 + 8 * 2 + 8;
     } else {
       M5.Displays(0).fillRect(16 + 64 * 3 + 8 * 3, 100, 64, 2, TFT_WHITE);
-      colorOffset = 16 + 64 * 3 + 8 * 3;
+      colorOffset = 16 + 64 * 3 + 8 * 3 + 8;
     }
   }
   
