@@ -108,9 +108,11 @@ void loop() {
   Serial.printf("co2 %02f, temperature %02f, temperature offset %02f, humidity %02f\n", co2, temperature,
                 temperatureOffset, humidity);
 
+  co2 = 311;
+
   if (temperature > -10) {
     // View result
-    M5.Displays(0).setFont(&Seven_Segment24pt7b);
+    M5.Displays(0).setFont(&digital_7__mono_24pt7b);
     M5.Displays(0).setTextDatum(CL_DATUM);
 
     M5.Displays(0).setTextPadding(160);
