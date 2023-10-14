@@ -49,6 +49,9 @@ void setup() {
   // Init Screen
   viewUI();
 
+  // Init Led
+  initLed();
+
   // Get temperature offset
   //temperatureOffset = getTemperatureOffset();
 
@@ -143,16 +146,16 @@ void loop() {
 
     if (co2 < 1000) {
       M5.Displays(0).fillRect(16 + 64 * 0 + 8 * 0, 100, 64, 2, TFT_WHITE);
-      colorOffset = 16 + 64 * 0 + 8 * 0 + 32;
+      m5goColor = CRGB::Green;
     } else if (co2 < 2000) {
       M5.Displays(0).fillRect(16 + 64 * 1 + 8 * 1, 100, 64, 2, TFT_WHITE);
-      colorOffset = 16 + 64 * 1 + 8 * 1 + 32;
+      m5goColor = CRGB::Yellow;
     } else if (co2 < 3000) {
       M5.Displays(0).fillRect(16 + 64 * 2 + 8 * 2, 100, 64, 2, TFT_WHITE);
-      colorOffset = 16 + 64 * 2 + 8 * 2 + 32;
+      m5goColor = CRGB::Orange;
     } else {
       M5.Displays(0).fillRect(16 + 64 * 3 + 8 * 3, 100, 64, 2, TFT_WHITE);
-      colorOffset = 16 + 64 * 3 + 8 * 3 + 32;
+      m5goColor = CRGB::Blue;
     }
   }
   

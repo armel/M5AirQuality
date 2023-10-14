@@ -82,6 +82,15 @@ void viewBattery() {
   }
 }
 
+// Init Led
+void initLed() {
+  for (uint8_t j = 0; j < NUM_LEDS; j++) {
+    leds[j] = CRGB::Black;
+  }
+  FastLED.setBrightness(16);
+  FastLED.show();
+}
+
 // Init sensor SCD4x
 void initSensor() {
   Serial.begin(115200);
@@ -107,6 +116,12 @@ void initSensor() {
   M5.Displays(0).setTextPadding(180);
 
   for (uint8_t i = 0; i < 5; i++) {
+    leds[4 - i] = CRGB::DarkBlue;
+    leds[5 + i] = CRGB::DarkBlue;
+
+    FastLED.setBrightness(16);
+    FastLED.show();
+
     M5.Displays(0).drawString("Please wait - Init CO2 Sensor", 160, 90);
     delay(500);
     M5.Displays(0).drawString("", 160, 90);
@@ -115,8 +130,7 @@ void initSensor() {
 }
 
 // Get temperature offset
-float getTemperatureOffset()
-{
+float getTemperatureOffset() {
   uint8_t data[12], counter;
   counter = 0;
 
@@ -126,7 +140,7 @@ float getTemperatureOffset()
   Wire.endTransmission();
 
   Wire.requestFrom(SCD_ADDRESS, 12);
-  
+
   while (Wire.available()) {
     data[counter++] = Wire.read();
   }
@@ -140,19 +154,17 @@ float getTemperatureOffset()
 
 // Fade all led
 void fadeall() {
-  for (int i = 0; i < NUM_LEDS; i++) {
+  for (uint8_t i = 0; i < NUM_LEDS; i++) {
     leds[i].nscale8(100);
   }
 }
 
-// Led task 
+// Led task
 void led(void *pvParameters) {
   for (;;) {
-    // Get color
-    RGBColor m5goColor = M5.Displays(0).readPixelRGB(colorOffset, 115);
     // First slide the led in one direction
-    for (int i = 0; i < NUM_LEDS; i++) {
-      leds[i] = CRGB(m5goColor.r, m5goColor.g, m5goColor.b);
+    for (uint8_t i = 0; i < NUM_LEDS; i++) {
+      leds[i] = m5goColor;
       ;
       // Show the leds
       FastLED.show();
@@ -160,15 +172,14 @@ void led(void *pvParameters) {
       vTaskDelay(pdMS_TO_TICKS(50));
     }
 
-    // Now go in the other direction.
-    for (int i = (NUM_LEDS)-1; i >= 0; i--) {
-      leds[i] = CRGB(m5goColor.r, m5goColor.g, m5goColor.b);
+    // Now go in the other direction
+    for (uint8_t i = 0; i < NUM_LEDS; i++) {
+      leds[(NUM_LEDS) - 1 - i] = m5goColor;
       ;
       FastLED.show();
       fadeall();
       vTaskDelay(pdMS_TO_TICKS(50));
     }
-    Serial.printf("stackHWM Cylon: %d\n", uxTaskGetStackHighWaterMark(NULL));
   }
 }
 
