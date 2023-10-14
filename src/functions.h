@@ -32,7 +32,7 @@ void viewUI() {
   M5.Displays(0).setTextColor(TFT_ORANGE, TFT_SCREEN_BG);
   M5.Displays(0).drawString("Humidity", 250, 165);
   M5.Displays(0).setTextColor(TFT_WHITE, TFT_SCREEN_BG);
-  M5.Displays(0).drawString("V" + String(VERSION) + " by " + String(AUTHOR), 222, 230);
+  M5.Displays(0).drawString("V" + String(VERSION) + " by " + String(AUTHOR), 222, 232);
 }
 
 // View battery
@@ -115,6 +115,7 @@ void initSensor() {
   M5.Displays(0).setTextDatum(CC_DATUM);
   M5.Displays(0).setTextPadding(180);
 
+#if BOARD != CORES3
   for (uint8_t i = 0; i < 5; i++) {
     leds[4 - i] = CRGB::DarkBlue;
     leds[5 + i] = CRGB::DarkBlue;
@@ -127,6 +128,14 @@ void initSensor() {
     M5.Displays(0).drawString("", 160, 90);
     delay(500);
   }
+#else
+  for (uint8_t i = 0; i < 5; i++) {
+    M5.Displays(0).drawString("Please wait - Init CO2 Sensor", 160, 90);
+    delay(500);
+    M5.Displays(0).drawString("", 160, 90);
+    delay(500);
+  }
+#endif
 }
 
 // Get temperature offset
@@ -174,7 +183,7 @@ void led(void *pvParameters) {
 
     // Now go in the other direction
     for (uint8_t i = 0; i < NUM_LEDS; i++) {
-      leds[(NUM_LEDS) - 1 - i] = m5goColor;
+      leds[(NUM_LEDS)-1 - i] = m5goColor;
       ;
       FastLED.show();
       fadeall();

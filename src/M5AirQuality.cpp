@@ -46,14 +46,19 @@ void setup() {
   FastLED.setBrightness(16);
 #endif
 
-  // Init Screen
+  // view UI
   viewUI();
 
+  // view battery
+  viewBattery();
+
   // Init Led
+#if BOARD != CORES3
   initLed();
+#endif
 
   // Get temperature offset
-  //temperatureOffset = getTemperatureOffset();
+  // temperatureOffset = getTemperatureOffset();
 
   // Init Sensor
   initSensor();
@@ -68,13 +73,13 @@ void setup() {
                           1);        // Core where the task should run
 
 #if BOARD != CORES3
-  xTaskCreatePinnedToCore(led,      // Function to implement the task
-                          "led",    // Name of the task
-                          1024,     // Stack size in words
-                          NULL,     // Task input parameter
-                          4,        // Priority of the task
-                          NULL,     // Task handle
-                          1);       // Core where the task should run
+  xTaskCreatePinnedToCore(led,    // Function to implement the task
+                          "led",  // Name of the task
+                          1024,   // Stack size in words
+                          NULL,   // Task input parameter
+                          4,      // Priority of the task
+                          NULL,   // Task handle
+                          1);     // Core where the task should run
 #endif
 }
 
@@ -158,7 +163,7 @@ void loop() {
       m5goColor = CRGB::Blue;
     }
   }
-  
+
   // Wait for next measurement
   delay(5000);
 }

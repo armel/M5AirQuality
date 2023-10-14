@@ -34,7 +34,7 @@ CRGB leds[NUM_LEDS];
 const int16_t SCD_ADDRESS = 0x62;
 
 // Variables
-uint16_t brightness  = BRIGHTNESS;
+uint16_t brightness      = BRIGHTNESS;
 uint16_t batteryLevelOld = 1024;
 
 boolean batteryCharginglOld = true;
