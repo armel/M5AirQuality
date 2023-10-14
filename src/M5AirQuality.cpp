@@ -110,7 +110,7 @@ void loop() {
 
   if (temperature > -10) {
     // View result
-    M5.Displays(0).setFont(&rounded_led_board10pt7b);
+    M5.Displays(0).setFont(&Seven_Segment24pt7b);
     M5.Displays(0).setTextDatum(CL_DATUM);
 
     M5.Displays(0).setTextPadding(160);
