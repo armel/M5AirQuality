@@ -98,7 +98,8 @@ void initSensor() {
     ;
 
   // Init I2C
-  Wire.begin();
+  Wire.begin();        // Port A
+  //Wire.begin(14, 13);  // Port C available on M5GO2 for Core2
 
   // Wait until sensors are ready, > 1000 ms according to datasheet
   delay(1000);
