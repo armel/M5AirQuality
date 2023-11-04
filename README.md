@@ -30,9 +30,9 @@ First, edit `platformio.ini` file and change `default_envs` target :
 
 You can compile the source code and flash your M5Stack.
 
-# About M5GO2 on Core2
+# About M5GO2 module for M5Stack Core2
 
-It's possible to use PORT C (the blue one) if you're using an M5GO2 module for Core2. Take a look at `functions.h` file, lines  100 ~ 102 and change this,
+It's possible to use PORT C (the blue one) if you're using an M5GO2 module for M5Stack Core2. Take a look at file `functions.h`, lines  _100 ~ 102_ and change this,
 
 ```
   // Init I2C
@@ -40,7 +40,7 @@ It's possible to use PORT C (the blue one) if you're using an M5GO2 module for C
   //Wire.begin(14, 13);  // Port C available on M5GO2 for Core2
 ```
 
-by
+by this,
 
 ```
   // Init I2C
