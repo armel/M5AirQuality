@@ -18,7 +18,11 @@ This project is a little air quality monitor for M5Stack and Unit CO2 ([SCD40](h
 
 # Usage
 
-Use left and right buttons to adjust brightness. 
+Use left and right buttons to adjust brightness.
+
+## M5Stack Core3
+
+Connect air quality sensor to port A (I2C).
 
 # Compilation
 
