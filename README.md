@@ -30,22 +30,33 @@ First, edit `platformio.ini` file and change `default_envs` target :
 
 You can compile the source code and flash your M5Stack.
 
-# About M5GO2 module for M5Stack Core2
+# About M5GO2 module for M5Stack Core2 and M5GO3 module for M5Stack CoreS3
 
-It's possible to use PORT C (the blue one) if you're using an M5GO2 module for M5Stack Core2. Take a look at file `functions.h`, lines  _100 ~ 102_ and change this,
+It's possible to use PORT C (the blue one) if you're using an M5GO2 module for M5Stack Core2 or an M5GO3 module for M5Stack CoreS3. Take a look at file `functions.h`, lines  _105 ~ 107_ and change this,
 
 ```
   // Init I2C
-  Wire.begin();        // Port A
+  Wire.begin();          // Port A
   //Wire.begin(14, 13);  // Port C available on M5GO2 for Core2
+  //Wire.begin(17, 18);  // Port C available on M5GO3 for CoreS3
 ```
 
-by this,
+by this, if you're using M5GO2 module for M5Stack Core2,
 
 ```
   // Init I2C
   //Wire.begin();        // Port A
-  Wire.begin(14, 13);  // Port C available on M5GO2 for Core2
+  Wire.begin(14, 13);    // Port C available on M5GO2 for Core2
+  //Wire.begin(17, 18);  // Port C available on M5GO3 for CoreS3
+```
+
+or this, if you're using M5GO3 module for M5Stack CoreS3,
+
+```
+  // Init I2C
+  //Wire.begin();        // Port A
+  //Wire.begin(14, 13);  // Port C available on M5GO2 for Core2
+  Wire.begin(17, 18);    // Port C available on M5GO3 for CoreS3
 ```
 
 
