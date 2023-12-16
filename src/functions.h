@@ -87,7 +87,11 @@ void initLed() {
   for (uint8_t j = 0; j < NUM_LEDS; j++) {
     leds[j] = CRGB::Black;
   }
+#if BOARD != CORES3
   FastLED.setBrightness(16);
+#else
+  FastLED.setBrightness(32);
+#endif
   FastLED.show();
 }
 
@@ -98,8 +102,9 @@ void initSensor() {
     ;
 
   // Init I2C
-  Wire.begin();        // Port A
+  //Wire.begin();        // Port A
   //Wire.begin(14, 13);  // Port C available on M5GO2 for Core2
+  Wire.begin(17, 18);  // Port C available on M5GO3 for CoreS3
 
   // Wait until sensors are ready, > 1000 ms according to datasheet
   delay(1000);
@@ -116,12 +121,10 @@ void initSensor() {
   M5.Displays(0).setTextDatum(CC_DATUM);
   M5.Displays(0).setTextPadding(180);
 
-#if BOARD != CORES3
   for (uint8_t i = 0; i < 5; i++) {
     leds[4 - i] = CRGB::DarkBlue;
     leds[5 + i] = CRGB::DarkBlue;
 
-    FastLED.setBrightness(16);
     FastLED.show();
 
     M5.Displays(0).drawString("Please wait - Init CO2 Sensor", 160, 90);
@@ -129,14 +132,6 @@ void initSensor() {
     M5.Displays(0).drawString("", 160, 90);
     delay(500);
   }
-#else
-  for (uint8_t i = 0; i < 5; i++) {
-    M5.Displays(0).drawString("Please wait - Init CO2 Sensor", 160, 90);
-    delay(500);
-    M5.Displays(0).drawString("", 160, 90);
-    delay(500);
-  }
-#endif
 }
 
 // Get temperature offset

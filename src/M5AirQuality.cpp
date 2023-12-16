@@ -44,6 +44,10 @@ void setup() {
                                   NUM_LEDS);  // GRB ordering is assumed
   }
   FastLED.setBrightness(16);
+#else
+  FastLED.addLeds<NEOPIXEL, 5>(leds,
+                                  NUM_LEDS);  // GRB ordering is assumed
+  FastLED.setBrightness(32);
 #endif
 
   // view UI
@@ -53,9 +57,7 @@ void setup() {
   viewBattery();
 
   // Init Led
-#if BOARD != CORES3
   initLed();
-#endif
 
   // Get temperature offset
   // temperatureOffset = getTemperatureOffset();
@@ -72,7 +74,6 @@ void setup() {
                           NULL,      // Task handle
                           1);        // Core where the task should run
 
-#if BOARD != CORES3
   xTaskCreatePinnedToCore(led,    // Function to implement the task
                           "led",  // Name of the task
                           1024,   // Stack size in words
@@ -80,7 +81,6 @@ void setup() {
                           4,      // Priority of the task
                           NULL,   // Task handle
                           1);     // Core where the task should run
-#endif
 }
 
 // Main loop
