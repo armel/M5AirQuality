@@ -98,8 +98,8 @@ void initLed() {
 // Init sensor SCD4x
 void initSensor() {
   Serial.begin(115200);
-  while (!Serial)
-    ;
+  //while (!Serial)
+  //  ;
 
   // Init I2C
   Wire.begin();        // Port A
