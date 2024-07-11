@@ -65,10 +65,12 @@ void viewBattery() {
     M5.Displays(0).drawFastVLine(300, 5, 10, TFT_SCREEN_BG);
     M5.Displays(0).drawFastVLine(306, 5, 10, TFT_SCREEN_BG);
 
+    M5.Displays(0).fillRect(260, 4, 32, 12, TFT_RED);
+
     if (batteryCharging) {
       M5.Displays(0).setTextColor(TFT_WHITE);
       M5.Displays(0).setFont(&arial6pt7b);
-      M5.Displays(0).setTextDatum(CC_DATUM);
+      M5.Displays(0).setTextDatum(CR_DATUM);
       M5.Displays(0).setTextPadding(0);
       snprintf(buf, 8, "%s", "+");
     } else {
@@ -78,6 +80,7 @@ void viewBattery() {
       M5.Displays(0).setTextPadding(0);
       snprintf(buf, 8, "%d%s", getBatteryLevel(), "%");
     }
+    M5.Displays(0).fillRect(260, 4, 32, 12, TFT_SCREEN_BG);
     M5.Displays(0).drawString(buf, 290, 11);
   }
 }
@@ -98,11 +101,11 @@ void initLed() {
 // Init sensor SCD4x
 void initSensor() {
   Serial.begin(115200);
-  //while (!Serial)
-  //  ;
+  // while (!Serial)
+  //   ;
 
   // Init I2C
-  Wire.begin();        // Port A
+  Wire.begin();  // Port A
   //Wire.begin(14, 13);  // Port C available on M5GO2 for Core2
   //Wire.begin(17, 18);  // Port C available on M5GO3 for CoreS3
 
@@ -211,24 +214,24 @@ void button(void *pvParameters) {
     boolean read;    // read, if true, button is push, else false
   };
 
-#if BOARD == CORES3
-  Button myBtn[] = {
-    {"myBtnA", 0, 160, 100, 80, 1000, true, false},
-    {"myBtnB", 110, 160, 100, 80, 1000, true, false},
-    {"myBtnC", 220, 160, 100, 80, 1000, true, false},
-  };
-#else
   Button myBtn[] = {
     {"myBtnA", 0, 240, 100, 80, 1000, true, false},
     {"myBtnB", 110, 240, 100, 80, 1000, true, false},
     {"myBtnC", 220, 240, 100, 80, 1000, true, false},
   };
-#endif
+
+  if (M5.getBoard() == m5::board_t::board_M5StackCoreS3) {
+    Button myBtn[] = {
+      {"myBtnA", 0, 160, 100, 80, 1000, true, false},
+      {"myBtnB", 110, 160, 100, 80, 1000, true, false},
+      {"myBtnC", 220, 160, 100, 80, 1000, true, false},
+    };
+  }
 
   for (;;) {
     M5.update();
 
-    if (M5.getBoard() == m5::board_t::board_M5Stack || M5.getBoard() == m5::board_t::board_M5StackCore2) {
+    if (M5.getBoard() == m5::board_t::board_M5Stack || M5.getBoard() == m5::board_t::board_M5StackCore2 || M5.getBoard() == m5::board_t::board_M5StackCoreS3SE) {
       step = 4;
       min  = 4;
       max  = 255;
