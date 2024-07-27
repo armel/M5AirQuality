@@ -118,7 +118,13 @@ void loop() {
     M5.Displays(0).setFont(&digital_7__mono_24pt7b);
     M5.Displays(0).setTextDatum(CL_DATUM);
 
-    M5.Displays(0).setTextPadding(160);
+    if(int(co2) < 1000) {
+      M5.Displays(0).setTextPadding(66);
+    }
+    else {
+      M5.Displays(0).setTextPadding(88);
+    }
+
     M5.Displays(0).setTextColor(TFT_PINK, TFT_SCREEN_BG);
     M5.Displays(0).drawString(String(int(co2)), 90, 46);
 
