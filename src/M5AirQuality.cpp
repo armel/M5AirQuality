@@ -124,7 +124,12 @@ void loop() {
 
     M5.Displays(0).setTextPadding(40);
     M5.Displays(0).setTextColor(TFT_SKYBLUE, TFT_SCREEN_BG);
-    M5.Displays(0).drawString(String(int(temperature)), 90, 190);
+
+    if(int(temperature) < 100) // Prevent display bug
+    {
+      M5.Displays(0).drawString(String(int(temperature)), 90, 190);
+    }
+
     M5.Displays(0).setTextColor(TFT_ORANGE, TFT_SCREEN_BG);
     M5.Displays(0).drawString(String(int(humidity)), 250, 190);
 
@@ -135,17 +140,17 @@ void loop() {
 
     M5.Displays(0).setTextColor(TFT_PINK, TFT_SCREEN_BG);
     if (co2 < 1000) {
-      M5.Displays(0).drawString("ppm", 165, 46);
+      M5.Displays(0).drawString("ppm", 165, 36);
     } else {
-      M5.Displays(0).drawString("ppm", 185, 46);
+      M5.Displays(0).drawString("ppm", 185, 36);
     }
 
     M5.Displays(0).setTextColor(TFT_SKYBLUE, TFT_SCREEN_BG);
-    M5.Displays(0).drawString("o", 140, 185);
-    M5.Displays(0).drawString("C", 148, 190);
+    M5.Displays(0).drawString("o", 140, 180);
+    M5.Displays(0).drawString("C", 148, 185);
 
     M5.Displays(0).setTextColor(TFT_ORANGE, TFT_SCREEN_BG);
-    M5.Displays(0).drawString("%", 300, 190);
+    M5.Displays(0).drawString("%", 300, 182);
 
     M5.Displays(0).fillRect(0, 100, 320, 2, TFT_SCREEN_BG);
 
