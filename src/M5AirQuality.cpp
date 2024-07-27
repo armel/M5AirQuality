@@ -202,7 +202,7 @@ void loop() {
         j = 40;
       }
 
-      Serial.printf("%d %d %d %d\n", co2Min, co2Max, co2Last[i], j);
+      //Serial.printf("%d %d %d %d\n", co2Min, co2Max, co2Last[i], j);
       M5.Displays(0).drawFastVLine(220 + (i * 4), 62 - 40, 40, TFT_SCREEN_BG);
       M5.Displays(0).drawFastVLine(220 + (i * 4) + 1, 62 - 40, 40, TFT_SCREEN_BG);
 
