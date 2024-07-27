@@ -33,6 +33,9 @@ CRGB leds[NUM_LEDS];
 // Sensor SCD4x
 const int16_t SCD_ADDRESS = 0x62;
 
+// Sprite
+LGFX_Sprite measureSprite(&M5.Display);
+
 // Variables
 uint16_t brightness      = BRIGHTNESS;
 uint16_t batteryLevelOld = 1024;

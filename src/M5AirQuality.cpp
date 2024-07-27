@@ -50,6 +50,10 @@ void setup() {
   FastLED.setBrightness(32);
 #endif
 
+  // Sprite
+  measureSprite.setColorDepth(24);
+  measureSprite.createSprite(30, 40);
+
   // view UI
   viewUI();
 
@@ -86,6 +90,10 @@ void setup() {
 // Main loop
 void loop() {
   float co2, temperature, humidity;
+  static float co2Old = 0;
+  static float temperatureOld = 0;
+  static float humidityOld = 0;
+
   uint8_t data[12], counter;
 
   // view battery
@@ -115,6 +123,8 @@ void loop() {
 
   if (temperature > -10) {
     // View result
+
+    // View co2
     M5.Displays(0).setFont(&digital_7__mono_24pt7b);
     M5.Displays(0).setTextDatum(CL_DATUM);
 
@@ -128,7 +138,38 @@ void loop() {
     M5.Displays(0).setTextColor(TFT_PINK, TFT_SCREEN_BG);
     M5.Displays(0).drawString(String(int(co2)), 90, 46);
 
-    M5.Displays(0).setTextPadding(40);
+    // View + or - and legend
+    measureSprite.clear();
+    measureSprite.fillRect(0, 0, 30, 40, TFT_SCREEN_BG);
+    measureSprite.setFont(&digital_7__mono_24pt7b);
+    measureSprite.setTextColor(TFT_PINK);
+
+    if(co2Old < co2)
+    {
+      measureSprite.drawString("+", 2, 4);
+    }
+    else if(co2Old > co2)
+    {
+      measureSprite.drawString("-", 2, 4);
+    }
+    else
+    {
+      measureSprite.drawString("=", 2, 4);
+    }
+    co2Old = co2;
+
+    measureSprite.setFont(&arial6pt7b);
+    measureSprite.setTextColor(TFT_PINK);
+    measureSprite.drawString("ppm", 0, 0);
+
+    if (co2 < 1000) {
+      measureSprite.pushSprite(165, 30, TFT_TRANSPARENT);
+    } else {
+      measureSprite.pushSprite(185, 30, TFT_TRANSPARENT);
+    }
+
+    // View temperature
+    M5.Displays(0).setTextPadding(44);
     M5.Displays(0).setTextColor(TFT_SKYBLUE, TFT_SCREEN_BG);
 
     if(int(temperature) < 100) // Prevent display bug
@@ -136,28 +177,65 @@ void loop() {
       M5.Displays(0).drawString(String(int(temperature)), 90, 190);
     }
 
+    // View + or - and legend
+    measureSprite.clear();
+    measureSprite.fillRect(0, 0, 30, 40, TFT_SCREEN_BG);
+    measureSprite.setFont(&digital_7__mono_24pt7b);
+    measureSprite.setTextColor(TFT_SKYBLUE);
+
+    if(temperatureOld < temperature)
+    {
+      measureSprite.drawString("+", 2, 4);
+    }
+    else if(temperatureOld > temperature)
+    {
+      measureSprite.drawString("-", 2, 4);
+    }
+    else
+    {
+      measureSprite.drawString("=", 2, 4);
+    }
+    temperatureOld = temperature;
+
+    measureSprite.setFont(&arial6pt7b);
+    measureSprite.setTextColor(TFT_SKYBLUE);
+    measureSprite.drawString("o", 0, 0);
+    measureSprite.drawString("C", 8, 5);
+
+    measureSprite.pushSprite(140, 174, TFT_TRANSPARENT);
+  
+    // View humidity
+    M5.Displays(0).setTextPadding(44);
     M5.Displays(0).setTextColor(TFT_ORANGE, TFT_SCREEN_BG);
     M5.Displays(0).drawString(String(int(humidity)), 250, 190);
 
-    M5.Displays(0).setFont(&arial6pt7b);
-    M5.Displays(0).setTextColor(TFT_WHITE, TFT_SCREEN_BG);
-    M5.Displays(0).setTextDatum(CL_DATUM);
-    M5.Displays(0).setTextPadding(20);
+    // View + or - and legend
+    measureSprite.clear();
+    measureSprite.fillRect(0, 0, 30, 40, TFT_SCREEN_BG);
+    measureSprite.setFont(&digital_7__mono_24pt7b);
+    measureSprite.setTextColor(TFT_ORANGE);
 
-    M5.Displays(0).setTextColor(TFT_PINK, TFT_SCREEN_BG);
-    if (co2 < 1000) {
-      M5.Displays(0).drawString("ppm", 165, 36);
-    } else {
-      M5.Displays(0).drawString("ppm", 185, 36);
+    if(humidityOld < humidity)
+    {
+      measureSprite.drawString("+", 2, 4);
     }
+    else if(humidityOld > humidity)
+    {
+      measureSprite.drawString("-", 2, 4);
+    }
+    else
+    {
+      measureSprite.drawString("=", 2, 4);
+    }
+    humidityOld = humidity;
 
-    M5.Displays(0).setTextColor(TFT_SKYBLUE, TFT_SCREEN_BG);
-    M5.Displays(0).drawString("o", 140, 180);
-    M5.Displays(0).drawString("C", 148, 185);
+    measureSprite.setFont(&arial6pt7b);
+    measureSprite.setTextColor(TFT_ORANGE);
+    measureSprite.drawString("%", 0, 2);
 
-    M5.Displays(0).setTextColor(TFT_ORANGE, TFT_SCREEN_BG);
-    M5.Displays(0).drawString("%", 300, 182);
+    measureSprite.pushSprite(300, 174, TFT_TRANSPARENT);
 
+    // Bar
     M5.Displays(0).fillRect(0, 100, 320, 2, TFT_SCREEN_BG);
 
     if (co2 < 1000) {
