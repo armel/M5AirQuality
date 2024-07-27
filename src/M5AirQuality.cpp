@@ -93,8 +93,15 @@ void loop() {
   static float co2Old = 0;
   static float temperatureOld = 0;
   static float humidityOld = 0;
+  static int16_t co2Last[20] = {1000};
+  int16_t co2Max = 0;
+  int16_t co2Min = 10000;
 
   uint8_t data[12], counter;
+
+  size_t n = sizeof(co2Last)/sizeof(co2Last[0]);
+
+  Serial.println(n);
 
   // view battery
   viewBattery();
@@ -113,6 +120,7 @@ void loop() {
 
   // Floating point conversion according to datasheet
   co2 = (float)((uint16_t)data[0] << 8 | data[1]);
+
   // Convert T in deg C
   temperature = -45 + 175 * (float)((uint16_t)data[3] << 8 | data[4]) / 65535 - temperatureOffset;
   // Convert RH in %
@@ -124,15 +132,23 @@ void loop() {
   if (temperature > -10) {
     // View result
 
+    //co2 = random(600, 1200);
+
+    for(uint8_t i = 0; i < (n - 1); i++)
+    {
+      co2Last[i] = co2Last[i + 1];
+    }
+    co2Last[(n - 1)] = int(co2);
+
     // View co2
     M5.Displays(0).setFont(&digital_7__mono_24pt7b);
     M5.Displays(0).setTextDatum(CL_DATUM);
 
     if(int(co2) < 1000) {
-      M5.Displays(0).setTextPadding(66);
+      M5.Displays(0).setTextPadding(120);
     }
     else {
-      M5.Displays(0).setTextPadding(88);
+      M5.Displays(0).setTextPadding(150);
     }
 
     M5.Displays(0).setTextColor(TFT_PINK, TFT_SCREEN_BG);
@@ -167,6 +183,37 @@ void loop() {
     } else {
       measureSprite.pushSprite(185, 30, TFT_TRANSPARENT);
     }
+
+    for(uint8_t i = 0; i < n; i++)
+    {
+      if(co2Last[i] != 0)
+      {
+        co2Max = max(co2Last[i], co2Max);
+        co2Min = min(co2Last[i], co2Min);
+      }
+    }
+
+    for(uint8_t i = 0; i < n; i++)
+    {
+      uint8_t j = map(co2Last[i], co2Min, co2Max, 1, 40);
+
+      if(j > 40)
+      {
+        j = 40;
+      }
+
+      Serial.printf("%d %d %d %d\n", co2Min, co2Max, co2Last[i], j);
+      M5.Displays(0).drawFastVLine(220 + (i * 4), 62 - 40, 40, TFT_SCREEN_BG);
+      M5.Displays(0).drawFastVLine(220 + (i * 4) + 1, 62 - 40, 40, TFT_SCREEN_BG);
+
+      if(co2Last[i] != 0)
+      {
+        M5.Displays(0).drawFastVLine(220 + (i * 4), 62 - j, j, M5.Displays(0).color565(255, 128 - (i * 4), 128 - (i * 4)));
+        M5.Displays(0).drawFastVLine(220 + (i * 4) + 1, 62 - j, j, M5.Displays(0).color565(255, 128 - (i * 4), 128 - (i * 4)));
+      }
+    }
+
+    M5.Displays(0).fillRect(220, 63, 78, 1, M5.Displays(0).color565(255, 128, 128));
 
     // View temperature
     M5.Displays(0).setTextPadding(44);

@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 // Version
-#define VERSION "1.0.6"
+#define VERSION "1.1.0"
 #define AUTHOR  "F4HWN"
 #define NAME    "M5AirQuality"
 
