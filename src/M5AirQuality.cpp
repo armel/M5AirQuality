@@ -87,6 +87,11 @@ void setup() {
                           1);     // Core where the task should run
 }
 
+// Historical data
+static const int MAX_DATA_POINTS = 120;
+static float co2Data[MAX_DATA_POINTS];
+static int dataCount = 0;
+
 // Main loop
 void loop() {
   float co2, temperature, humidity;
@@ -134,11 +139,11 @@ void loop() {
 
     //co2 = random(600, 1200);
 
-    for(uint8_t i = 0; i < (n - 1); i++)
-    {
-      co2Last[i] = co2Last[i + 1];
-    }
-    co2Last[(n - 1)] = int(co2);
+    // for(uint8_t i = 0; i < (n - 1); i++)
+    // {
+    //   co2Last[i] = co2Last[i + 1];
+    // }
+    // co2Last[(n - 1)] = int(co2);
 
     // View co2
     M5.Displays(0).setFont(&digital_7__mono_24pt7b);
@@ -156,21 +161,21 @@ void loop() {
 
     // View + or - and legend
     measureSprite.clear();
-    measureSprite.fillRect(0, 0, 30, 40, TFT_SCREEN_BG);
+    measureSprite.fillRect(0, 0, 20, 50, TFT_SCREEN_BG);
     measureSprite.setFont(&digital_7__mono_24pt7b);
     measureSprite.setTextColor(TFT_PINK);
 
     if(co2Old < co2)
     {
-      measureSprite.drawString("+", 2, 4);
+      measureSprite.drawString("+", 5, 0);
     }
     else if(co2Old > co2)
     {
-      measureSprite.drawString("-", 2, 4);
+      measureSprite.drawString("-", 5, 0);
     }
     else
     {
-      measureSprite.drawString("=", 2, 4);
+      measureSprite.drawString("=", 5, 0);
     }
     co2Old = co2;
 
@@ -178,42 +183,42 @@ void loop() {
     measureSprite.setTextColor(TFT_PINK);
     measureSprite.drawString("ppm", 0, 0);
 
-    if (co2 < 1000) {
-      measureSprite.pushSprite(165, 30, TFT_TRANSPARENT);
-    } else {
-      measureSprite.pushSprite(185, 30, TFT_TRANSPARENT);
-    }
+    //if (co2 < 1000) {
+    measureSprite.pushSprite(100, 70, TFT_TRANSPARENT);
+    //} else {
+    //  measureSprite.pushSprite(185, 30, TFT_TRANSPARENT);
+    //}
 
-    for(uint8_t i = 0; i < n; i++)
-    {
-      if(co2Last[i] != 0)
-      {
-        co2Max = max(co2Last[i], co2Max);
-        co2Min = min(co2Last[i], co2Min);
-      }
-    }
+    // for(uint8_t i = 0; i < n; i++)
+    // {
+    //   if(co2Last[i] != 0)
+    //   {
+    //     co2Max = max(co2Last[i], co2Max);
+    //     co2Min = min(co2Last[i], co2Min);
+    //   }
+    // }
 
-    for(uint8_t i = 0; i < n; i++)
-    {
-      uint8_t j = map(co2Last[i], co2Min, co2Max, 1, 40);
+    // for(uint8_t i = 0; i < n; i++)
+    // {
+    //   uint8_t j = map(co2Last[i], co2Min, co2Max, 1, 40);
 
-      if(j > 40)
-      {
-        j = 40;
-      }
+    //   if(j > 40)
+    //   {
+    //     j = 40;
+    //   }
 
-      //Serial.printf("%d %d %d %d\n", co2Min, co2Max, co2Last[i], j);
-      M5.Displays(0).drawFastVLine(220 + (i * 4), 62 - 40, 40, TFT_SCREEN_BG);
-      M5.Displays(0).drawFastVLine(220 + (i * 4) + 1, 62 - 40, 40, TFT_SCREEN_BG);
+    //   //Serial.printf("%d %d %d %d\n", co2Min, co2Max, co2Last[i], j);
+    //   M5.Displays(0).drawFastVLine(220 + (i * 4), 62 - 40, 40, TFT_SCREEN_BG);
+    //   M5.Displays(0).drawFastVLine(220 + (i * 4) + 1, 62 - 40, 40, TFT_SCREEN_BG);
 
-      if(co2Last[i] != 0)
-      {
-        M5.Displays(0).drawFastVLine(220 + (i * 4), 62 - j, j, M5.Displays(0).color565(255, 128 - (i * 4), 128 - (i * 4)));
-        M5.Displays(0).drawFastVLine(220 + (i * 4) + 1, 62 - j, j, M5.Displays(0).color565(255, 128 - (i * 4), 128 - (i * 4)));
-      }
-    }
+    //   if(co2Last[i] != 0)
+    //   {
+    //     M5.Displays(0).drawFastVLine(220 + (i * 4), 62 - j, j, M5.Displays(0).color565(255, 128 - (i * 4), 128 - (i * 4)));
+    //     M5.Displays(0).drawFastVLine(220 + (i * 4) + 1, 62 - j, j, M5.Displays(0).color565(255, 128 - (i * 4), 128 - (i * 4)));
+    //   }
+    // }
 
-    M5.Displays(0).fillRect(220, 63, 78, 1, M5.Displays(0).color565(255, 128, 128));
+    // M5.Displays(0).fillRect(220, 63, 78, 1, M5.Displays(0).color565(255, 128, 128));
 
     // View temperature
     M5.Displays(0).setTextPadding(44);
@@ -296,8 +301,24 @@ void loop() {
       m5goColor = CRGB::Orange;
     } else {
       M5.Displays(0).fillRect(16 + 64 * 3 + 8 * 3, 100, 64, 2, TFT_WHITE);
-      m5goColor = CRGB::Blue;
+      m5goColor = CRGB::Red;
     }
+
+    // Add data point to the historical data
+    if (co2>4000){co2Data[dataCount] =  4000;}
+    else {co2Data[dataCount] = co2;}
+    dataCount++;
+
+    drawGraph(co2Data,dataCount);
+
+    // If the maximum number of data points is reached, shift the data
+    if (dataCount >= MAX_DATA_POINTS) {
+      for (int i = 0; i < MAX_DATA_POINTS - 1; i++) {
+        co2Data[i] = co2Data[i + 1];
+      }
+      dataCount--;
+    }
+
   }
 
   // Wait for next measurement
