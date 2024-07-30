@@ -53,6 +53,8 @@ void setup() {
   // Sprite
   measureSprite.setColorDepth(24);
   measureSprite.createSprite(30, 40);
+  measureSpritePpm.setColorDepth(24);
+  measureSpritePpm.createSprite(60, 40);
 
   // view UI
   viewUI();
@@ -98,15 +100,9 @@ void loop() {
   static float co2Old = 0;
   static float temperatureOld = 0;
   static float humidityOld = 0;
-  static int16_t co2Last[20] = {1000};
-  int16_t co2Max = 0;
-  int16_t co2Min = 10000;
+
 
   uint8_t data[12], counter;
-
-  size_t n = sizeof(co2Last)/sizeof(co2Last[0]);
-
-  Serial.println(n);
 
   // view battery
   viewBattery();
@@ -137,14 +133,6 @@ void loop() {
   if (temperature > -10) {
     // View result
 
-    //co2 = random(600, 1200);
-
-    // for(uint8_t i = 0; i < (n - 1); i++)
-    // {
-    //   co2Last[i] = co2Last[i + 1];
-    // }
-    // co2Last[(n - 1)] = int(co2);
-
     // View co2
     M5.Displays(0).setFont(&digital_7__mono_24pt7b);
     M5.Displays(0).setTextDatum(CL_DATUM);
@@ -160,65 +148,30 @@ void loop() {
     M5.Displays(0).drawString(String(int(co2)), 90, 46);
 
     // View + or - and legend
-    measureSprite.clear();
-    measureSprite.fillRect(0, 0, 20, 50, TFT_SCREEN_BG);
-    measureSprite.setFont(&digital_7__mono_24pt7b);
-    measureSprite.setTextColor(TFT_PINK);
+    measureSpritePpm.clear();
+    measureSpritePpm.fillRect(0, 0, 60, 40, TFT_SCREEN_BG);
+    measureSpritePpm.setFont(&digital_7__mono_24pt7b);
+    measureSpritePpm.setTextColor(TFT_PINK);
 
     if(co2Old < co2)
     {
-      measureSprite.drawString("+", 5, 0);
+      measureSpritePpm.drawString("+", 30, 0);
     }
     else if(co2Old > co2)
     {
-      measureSprite.drawString("-", 5, 0);
+      measureSpritePpm.drawString("-", 30, 0);
     }
     else
     {
-      measureSprite.drawString("=", 5, 0);
+      measureSpritePpm.drawString("=", 30, 0);
     }
     co2Old = co2;
 
-    measureSprite.setFont(&arial6pt7b);
-    measureSprite.setTextColor(TFT_PINK);
-    measureSprite.drawString("ppm", 0, 0);
+    measureSpritePpm.setFont(&arial6pt7b);
+    measureSpritePpm.setTextColor(TFT_PINK);
+    measureSpritePpm.drawString("ppm", 0, 15);
 
-    //if (co2 < 1000) {
-    measureSprite.pushSprite(100, 70, TFT_TRANSPARENT);
-    //} else {
-    //  measureSprite.pushSprite(185, 30, TFT_TRANSPARENT);
-    //}
-
-    // for(uint8_t i = 0; i < n; i++)
-    // {
-    //   if(co2Last[i] != 0)
-    //   {
-    //     co2Max = max(co2Last[i], co2Max);
-    //     co2Min = min(co2Last[i], co2Min);
-    //   }
-    // }
-
-    // for(uint8_t i = 0; i < n; i++)
-    // {
-    //   uint8_t j = map(co2Last[i], co2Min, co2Max, 1, 40);
-
-    //   if(j > 40)
-    //   {
-    //     j = 40;
-    //   }
-
-    //   //Serial.printf("%d %d %d %d\n", co2Min, co2Max, co2Last[i], j);
-    //   M5.Displays(0).drawFastVLine(220 + (i * 4), 62 - 40, 40, TFT_SCREEN_BG);
-    //   M5.Displays(0).drawFastVLine(220 + (i * 4) + 1, 62 - 40, 40, TFT_SCREEN_BG);
-
-    //   if(co2Last[i] != 0)
-    //   {
-    //     M5.Displays(0).drawFastVLine(220 + (i * 4), 62 - j, j, M5.Displays(0).color565(255, 128 - (i * 4), 128 - (i * 4)));
-    //     M5.Displays(0).drawFastVLine(220 + (i * 4) + 1, 62 - j, j, M5.Displays(0).color565(255, 128 - (i * 4), 128 - (i * 4)));
-    //   }
-    // }
-
-    // M5.Displays(0).fillRect(220, 63, 78, 1, M5.Displays(0).color565(255, 128, 128));
+    measureSpritePpm.pushSprite(100, 65, TFT_TRANSPARENT);
 
     // View temperature
     M5.Displays(0).setTextPadding(44);
