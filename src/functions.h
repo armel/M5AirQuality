@@ -191,6 +191,65 @@ void led(void *pvParameters) {
   }
 }
 
+// Draw Graph history CO2 with 100 points max
+// On Y the value of CO2 is between 0 and 4000 ppm.
+// On X the value is between 0 and 50.
+// Each value is a point on the graph.
+// On Y draw 4 lines in 4 colors for Co2 value : green < 1000, yellow betwenn 1000 and 2000, orange between 2000 and 3000 and red upper of 3000.
+// Chart is 100px width and 70px height.
+// Parameters: array of CO2 level and the number of data in the array
+void drawGraph(float co2Data[], int dataCount) {
+  int32_t x, y, xOld, yOld;
+  int32_t co2;
+  int32_t deltax = 185;
+  int32_t deltay = 20;
+  int32_t width  = 119;
+  int32_t height = 70;
+
+  //Erasing the previous graph
+  M5.Displays(0).fillRect(deltax, deltay, width+1, height, TFT_SCREEN_BG);
+
+  //Draw the grid
+  M5.Displays(0).drawFastHLine(deltax, deltay+height, width, TFT_WHITE);
+  M5.Displays(0).drawFastVLine(deltax, deltay+height, -height, TFT_WHITE);
+
+  //Draw 4 lines for the 4 levels of CO2
+  //M5.Displays(0).drawFastHLine(deltax, deltay+height-10, width, TFT_GREEN);
+  M5.Displays(0).drawFastHLine(deltax, deltay+height-20, width, TFT_YELLOW);
+  M5.Displays(0).drawFastHLine(deltax, deltay+height-40, width, TFT_ORANGE);
+  M5.Displays(0).drawFastHLine(deltax, deltay+height-60, width, TFT_RED);
+
+  //declare the color of the pixel
+  int pixelColor = TFT_WHITE;
+  // Draw the graph
+  for (int32_t i = 0; i < dataCount; i++) {
+    co2 = co2Data[i];
+    x = i+deltax;
+    y = height - map(co2, 0, 4000, 0, height)+deltay;
+
+    if (i > 0) {
+      xOld = i - 1 +deltax;
+      yOld = height - map(co2Data[i - 1], 0, 4000, 0, height)+deltay;
+
+      if (xOld > 0) {
+        M5.Displays(0).drawLine(xOld, yOld, x, y, pixelColor);
+      }
+    }
+
+
+    if (co2 < 1000) {
+      pixelColor = TFT_GREEN;
+    } else if (co2 < 2000) {
+      pixelColor = TFT_YELLOW;
+    } else if (co2 < 3000) {
+      pixelColor = TFT_ORANGE;
+    } else {
+      pixelColor = TFT_RED;
+    }
+    M5.Displays(0).drawPixel(x, y, pixelColor);
+  }
+}
+
 // Check button
 void button(void *pvParameters) {
   uint8_t step = 2;
@@ -302,4 +361,6 @@ void button(void *pvParameters) {
 
     vTaskDelay(pdMS_TO_TICKS(20));
   }
+
+  
 }

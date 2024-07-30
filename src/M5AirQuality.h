@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 // Version
-#define VERSION "1.1.0"
+#define VERSION "1.1.1"
 #define AUTHOR  "F4HWN"
 #define NAME    "M5AirQuality"
 
@@ -35,6 +35,7 @@ const int16_t SCD_ADDRESS = 0x62;
 
 // Sprite
 LGFX_Sprite measureSprite(&M5.Display);
+LGFX_Sprite measureSpritePpm(&M5.Display);
 
 // Variables
 uint16_t brightness      = BRIGHTNESS;
