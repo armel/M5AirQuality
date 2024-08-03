@@ -105,9 +105,17 @@ void initSensor() {
   //   ;
 
   // Init I2C
-  Wire.begin();  // Port A
-  //Wire.begin(14, 13);  // Port C available on M5GO2 for Core2
-  //Wire.begin(17, 18);  // Port C available on M5GO3 for CoreS3
+  switch (I2C) {
+    case I2C_PORT_A:
+      Wire.begin();  // Port A
+      break;
+    case I2C_PORT_C_M5GO2:
+      Wire.begin(14, 13);  // Port C available on M5GO2 for Core2
+      break;
+    case I2C_PORT_C_M5GO3:
+      Wire.begin(17, 18);  // Port C available on M5GO3 for CoreS3
+      break;
+  }
 
   // Wait until sensors are ready, > 1000 ms according to datasheet
   delay(1000);
@@ -220,6 +228,7 @@ void button(void *pvParameters) {
     {"myBtnC", 220, 240, 100, 80, 1000, true, false},
   };
 
+#if BOARD == CORES3
   if (M5.getBoard() == m5::board_t::board_M5StackCoreS3) {
     Button myBtn[] = {
       {"myBtnA", 0, 160, 100, 80, 1000, true, false},
@@ -227,11 +236,13 @@ void button(void *pvParameters) {
       {"myBtnC", 220, 160, 100, 80, 1000, true, false},
     };
   }
+#endif
 
   for (;;) {
     M5.update();
 
-    if (M5.getBoard() == m5::board_t::board_M5Stack || M5.getBoard() == m5::board_t::board_M5StackCore2 || M5.getBoard() == m5::board_t::board_M5StackCoreS3SE) {
+    if (M5.getBoard() == m5::board_t::board_M5Stack || M5.getBoard() == m5::board_t::board_M5StackCore2 ||
+        M5.getBoard() == m5::board_t::board_M5StackCoreS3SE) {
       step = 4;
       min  = 4;
       max  = 255;
@@ -290,6 +301,7 @@ void button(void *pvParameters) {
       } else if (btnC) {
         brightnessOld += step;
         brightnessOld = (brightnessOld >= max) ? max : brightnessOld;
+      } else if (btnB) {
       }
 
       if (brightnessOld != brightness) {

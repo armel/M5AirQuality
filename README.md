@@ -26,6 +26,27 @@ First, edit `platformio.ini` file and change `default_envs` target :
 
 You can compile the source code and flash your M5Stack.
 
+# Config
+
+## I2C Port
+By default Unit CO2 ([SCD40](https://m5stack.oss-cn-shenzhen.aliyuncs.com/resource/docs/datasheet/unit/co2/SCD40.pdf)) use PORT A of your M5Stack. But you can use PORT C (the blue one) if you're using an M5GO2 module for M5Stack Core2 or an M5GO3 for CoreS3. Take a look at file `M5AirQuality.h`, line 22 to change I2C,
+
+- `#define I2C I2C_PORT_A` if you want to use PORT A,
+- `#define I2C I2C_PORT_C_M5GO2` if you want to use PORT C (the blue one) on M5GO2 for Core2,
+- `#define I2C I2C_PORT_C_M5GO3` if you want to use PORT C (the blue one) on M5GO3 for CoreS3.
+
+## Temperature Unit
+You can change the temperature unit. Take a look at file `M5AirQuality.h`, line 23 to change UNIT,
+
+- `#define UNIT CELCIUS` if you want to use degrees CELCIUS,
+- `#define UNIT FAHRENHEIT` if you want to use degrees FAHRENHEIT.
+
+## LED Alert
+If you're using an M5GO, M5GO2 or M5GO3 module, you can set a CO2 alert level that will light up in red, the module's LEDs to alert you. Take a look at file `M5AirQuality.h`, line 24 to change LED,
+
+- `#define LED 1200` if you want to set CO2 alert to 1200ppm (red if > 1200ppm),
+- `#define LED 0` if you want to use de default animation (green < 1000ppm, yellow < 2000ppm, orange < 3000ppm or red).
+
 # Usage
 
 Connect Unit CO2 to port A (I2C).
