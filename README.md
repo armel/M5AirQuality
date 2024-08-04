@@ -53,46 +53,6 @@ Connect Unit CO2 to port A (I2C).
 
 Use left and right buttons to adjust brightness.
 
-# About M5GO2 module for M5Stack Core2 and port C
-
-It's possible to use PORT C (the blue one) if you're using an M5GO2 module for M5Stack Core2. Take a look at file `functions.h`, lines  _105 ~ 107_ and change this,
-
-```
-  // Init I2C
-  Wire.begin();          // Port A
-  //Wire.begin(14, 13);  // Port C available on M5GO2 for Core2
-  //Wire.begin(17, 18);  // Port C available on M5GO3 for CoreS3
-```
-
-by this, 
-
-```
-  // Init I2C
-  //Wire.begin();        // Port A
-  Wire.begin(14, 13);    // Port C available on M5GO2 for Core2
-  //Wire.begin(17, 18);  // Port C available on M5GO3 for CoreS3
-```
-
-# About M5GO3 module for M5Stack CoreS3 and Port C
-
-It's possible to use PORT C (the blue one) if you're using an M5GO3 module for M5Stack CoreS3. Take a look at file `functions.h`, lines  _105 ~ 107_ and change this,
-
-```
-  // Init I2C
-  Wire.begin();          // Port A
-  //Wire.begin(14, 13);  // Port C available on M5GO2 for Core2
-  //Wire.begin(17, 18);  // Port C available on M5GO3 for CoreS3
-```
-
-by this, 
-
-```
-  // Init I2C
-  //Wire.begin();        // Port A
-  //Wire.begin(14, 13);  // Port C available on M5GO2 for Core2
-  Wire.begin(17, 18);    // Port C available on M5GO3 for CoreS3
-```
-
 # Credits
  
 Many thanks to...
