@@ -53,6 +53,8 @@ void setup() {
   // Sprite
   measureSprite.setColorDepth(24);
   measureSprite.createSprite(26, 40);
+  tempSprite.setColorDepth(24);
+  tempSprite.createSprite(90, 40);
 
   // view UI
   viewUI();
@@ -96,7 +98,10 @@ void loop() {
   static int16_t co2Last[20]  = {1000};
   int16_t co2Max              = 0;
   int16_t co2Min              = 10000;
-  char str[5]                 = "";
+  char strTempInt[8]          = "25";
+  char strTempFloat[8]        = "25.0";
+  char strHumidityFloat[8]    = "50";
+  uint8_t shift               = 0;
 
   uint8_t data[12], counter;
 
@@ -125,22 +130,28 @@ void loop() {
   // Convert T in deg C
   temperature = -45 + 175 * (float)((uint16_t)data[3] << 8 | data[4]) / 65535 - temperatureOffset;
 
-  //temperature = random(0, 40);
+  //temperature = random(-10, 90);
 
   if (UNIT == FAHRENHEIT) {
     temperature = (temperature * 1.8) + 32;
   }
 
-  if (temperature > 100) {
-    sprintf(str, "%3d", (int)temperature);
+  if (temperature < -9 || temperature > 99) {
+    sprintf(strTempInt, "%3d", (int)temperature);
   } else {
-    sprintf(str, "% 3d", (int)temperature);
+    sprintf(strTempInt, "%2d", (int)temperature);
+    shift = 10;
   }
 
-  // Serial.println(str);
+  sprintf(strTempFloat, "%.2f", temperature);
+
+  Serial.println(strTempFloat);
+  Serial.println(strTempInt);
 
   // Convert RH in %
   humidity = 100 * (float)((uint16_t)data[6] << 8 | data[7]) / 65535;
+
+  sprintf(strHumidityFloat, "%.2f", humidity);
 
   Serial.printf("co2 %02f, temperature %02f, temperature offset %02f, humidity %02f\n", co2, temperature,
                 temperatureOffset, humidity);
@@ -222,15 +233,24 @@ void loop() {
     M5.Displays(0).fillRect(220, 63, 78, 1, M5.Displays(0).color565(255, 128, 128));
 
     // View temperature
+    M5.Displays(0).setFont(&arial6pt7b);
     M5.Displays(0).setTextPadding(60);
     M5.Displays(0).setTextColor(TFT_SKYBLUE, TFT_SCREEN_BG);
-    M5.Displays(0).drawString(str, 80, 190);
+    M5.Displays(0).drawString(strTempFloat, 90, 218);
+
+    tempSprite.clear();
+    tempSprite.fillRect(0, 0, 90, 40, TFT_SCREEN_BG);
+    tempSprite.setFont(&digital_7__mono_24pt7b);
+    tempSprite.setTextPadding(60);
+    tempSprite.setTextColor(TFT_SKYBLUE, TFT_SCREEN_BG);
+    tempSprite.drawString(strTempInt, 0 + shift, 0);
+    tempSprite.pushSprite(80, 170, TFT_TRANSPARENT);
 
     // View + or - and legend
     measureSprite.clear();
     measureSprite.fillRect(0, 0, 26, 40, TFT_SCREEN_BG);
     measureSprite.setFont(&digital_7__mono_24pt7b);
-    measureSprite.setTextColor(TFT_SKYBLUE);
+    measureSprite.setTextColor(TFT_SKYBLUE, TFT_SCREEN_BG);
 
     if (temperatureOld < temperature) {
       measureSprite.drawString("+", 2, 4);
@@ -242,26 +262,30 @@ void loop() {
     temperatureOld = temperature;
 
     measureSprite.setFont(&arial6pt7b);
-    measureSprite.setTextColor(TFT_SKYBLUE);
+    measureSprite.setTextColor(TFT_SKYBLUE, TFT_SCREEN_BG);
     measureSprite.drawString("o", 0, 0);
     if (UNIT == FAHRENHEIT) {
       measureSprite.drawString("F", 8, 5);
-      measureSprite.pushSprite(150, 174, TFT_TRANSPARENT);
+      measureSprite.pushSprite(150 - shift, 174, TFT_TRANSPARENT);
     } else {
       measureSprite.drawString("C", 8, 5);
-      measureSprite.pushSprite(150, 174, TFT_TRANSPARENT);
+      measureSprite.pushSprite(150 - shift, 174, TFT_TRANSPARENT);
     }
 
     // View humidity
+    M5.Displays(0).setFont(&arial6pt7b);
     M5.Displays(0).setTextPadding(44);
     M5.Displays(0).setTextColor(TFT_ORANGE, TFT_SCREEN_BG);
+    M5.Displays(0).drawString(strHumidityFloat, 250, 218);
+
+    M5.Displays(0).setFont(&digital_7__mono_24pt7b);
     M5.Displays(0).drawString(String(int(humidity)), 250, 190);
 
     // View + or - and legend
     measureSprite.clear();
     measureSprite.fillRect(0, 0, 26, 40, TFT_SCREEN_BG);
     measureSprite.setFont(&digital_7__mono_24pt7b);
-    measureSprite.setTextColor(TFT_ORANGE);
+    measureSprite.setTextColor(TFT_ORANGE, TFT_SCREEN_BG);
 
     if (humidityOld < humidity) {
       measureSprite.drawString("+", 2, 4);
@@ -273,7 +297,7 @@ void loop() {
     humidityOld = humidity;
 
     measureSprite.setFont(&arial6pt7b);
-    measureSprite.setTextColor(TFT_ORANGE);
+    measureSprite.setTextColor(TFT_ORANGE, TFT_SCREEN_BG);
     measureSprite.drawString("%", 0, 2);
 
     measureSprite.pushSprite(300, 174, TFT_TRANSPARENT);

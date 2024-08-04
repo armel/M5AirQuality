@@ -19,7 +19,7 @@
 #define I2C_PORT_C_M5GO3 2
 
 // Your config here
-#define I2C  I2C_PORT_A  // Set I2C Port (I2C_PORT_A, I2C_PORT_C_M5GO2 or I2C_PORT_C_M5GO3)
+#define I2C I2C_PORT_C_M5GO2  // Set I2C Port (I2C_PORT_A, I2C_PORT_C_M5GO2 or I2C_PORT_C_M5GO3)
 #define UNIT CELCIUS     // Set UNIT to CELCIUS or FAHRENHEIT
 #define LED  1200        // Set to 0 (LEDs are on) or to a certain level (otherwise the LEDs are off)
 
@@ -47,7 +47,7 @@ const int16_t SCD_ADDRESS = 0x62;
 
 // Sprite
 LGFX_Sprite measureSprite(&M5.Display);
-
+LGFX_Sprite tempSprite(&M5.Display);
 // Variables
 uint16_t brightness      = BRIGHTNESS;
 uint16_t batteryLevelOld = 1024;
