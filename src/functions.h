@@ -105,7 +105,7 @@ void initSensor() {
   // while (!Serial)
   //   ;
 
-  Serial.printf(">>> %d\n", port);
+  //Serial.printf(">>> %d\n", port);
 
   // Init I2C
   switch (port) {
