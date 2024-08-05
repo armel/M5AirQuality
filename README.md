@@ -51,7 +51,22 @@ If you're using an M5GO, M5GO2 or M5GO3 module, you can set a CO2 alert level th
 
 Connect Unit CO2 to port A (I2C).
 
-Use left and right buttons to adjust brightness.
+Use middle button to enter the settings menu. Use the right and left buttons to select a menu option and confirm with the middle button. If necessary, use the right and left buttons again to select the sub-options and the middle button to confirm. 
+
+The following options are available :
+
+| Settings             | Value                                                        | 
+| -------------------- |:------------------------------------------------------------:| 
+| Temperature Unit	   | Set Temperature Unit (Celcius or Fahrenheit)                 |
+| Led Alert            | Set CO2 PPM Level (0 ~ 5000)                                 | 
+| Brightness           | Set Brightness (0 ~ 100%)                                    | 
+| Sensor Port          | Set Sensor Port (PORT A, PORT C for M5GO2, PORT C for M5GO3) |
+| Beep                 | Set Beep (0 ~ 100%)                                          |
+| Shutdown             | Shutdown your M5Stack (even if in charge)                    |
+| Reboot               | Rebbot your M5Stack (even if in charge)                      |
+| Exit                 | Menu Exit                                                    |
+ 
+> Temperature Unit, Led Alert, Brightness, Sensor Port and Beep are preserved at the next restart.
 
 # Credits
  
