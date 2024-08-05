@@ -45,7 +45,10 @@ The following options are available :
 | Reboot               | Rebbot your M5Stack (even if in charge)                      |
 | Exit                 | Menu Exit                                                    |
 
+> [!NOTE]
 > About Led Alert, set CO2 PPM to 0 if you want to use de default animation (green < 1000ppm, yellow < 2000ppm, orange < 3000ppm or red).
+
+> [!NOTE]
 > Temperature Unit, Led Alert, Brightness, Sensor Port and Beep are preserved at the next restart.
 
 # Credits
