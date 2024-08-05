@@ -44,6 +44,7 @@
 #define I2C_PORT_C_M5GO2 1
 #define I2C_PORT_C_M5GO3 2
 #define BEEP             20
+#define BRIGHTNESS       48
 
 // Dependencies
 #include <Preferences.h>
