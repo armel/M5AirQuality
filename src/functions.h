@@ -2,37 +2,37 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 // View UI
-void viewUI() {
-  M5.Displays(0).setBrightness(brightness);
+void viewGUI() {
+  M5.Displays(display).setBrightness(map(brightness, 1, 100, 1, 254));
 
-  M5.Displays(0).fillScreen(TFT_SCREEN_BG);
-  M5.Displays(0).drawPng(co2, sizeof(co2), 16, 16, 64, 64);
-  M5.Displays(0).drawPng(temperature, sizeof(temperature), 16, 160, 64, 64);
-  M5.Displays(0).drawPng(humidity, sizeof(humidity), 176, 160, 64, 64);
+  M5.Displays(display).fillScreen(TFT_SCREEN_BG);
+  M5.Displays(display).drawPng(co2, sizeof(co2), 16, 16, 64, 64);
+  M5.Displays(display).drawPng(temperature, sizeof(temperature), 16, 160, 64, 64);
+  M5.Displays(display).drawPng(humidity, sizeof(humidity), 176, 160, 64, 64);
 
-  M5.Displays(0).fillRect(16 + 64 * 0 + 8 * 0, 110, 64, 10, TFT_GREEN);
-  M5.Displays(0).fillRect(16 + 64 * 1 + 8 * 1, 110, 64, 10, TFT_YELLOW);
-  M5.Displays(0).fillRect(16 + 64 * 2 + 8 * 2, 110, 64, 10, TFT_ORANGE);
-  M5.Displays(0).fillRect(16 + 64 * 3 + 8 * 3, 110, 64, 10, TFT_RED);
+  M5.Displays(display).fillRect(16 + 64 * 0 + 8 * 0, 110, 64, 10, TFT_GREEN);
+  M5.Displays(display).fillRect(16 + 64 * 1 + 8 * 1, 110, 64, 10, TFT_YELLOW);
+  M5.Displays(display).fillRect(16 + 64 * 2 + 8 * 2, 110, 64, 10, TFT_ORANGE);
+  M5.Displays(display).fillRect(16 + 64 * 3 + 8 * 3, 110, 64, 10, TFT_RED);
 
-  M5.Displays(0).setFont(&arial6pt7b);
-  M5.Displays(0).setTextColor(TFT_WHITE, TFT_SCREEN_BG);
-  M5.Displays(0).setTextDatum(CC_DATUM);
-  M5.Displays(0).setTextPadding(20);
+  M5.Displays(display).setFont(&arial6pt7b);
+  M5.Displays(display).setTextColor(TFT_WHITE, TFT_SCREEN_BG);
+  M5.Displays(display).setTextDatum(CC_DATUM);
+  M5.Displays(display).setTextPadding(20);
 
-  M5.Displays(0).drawString("GOOD", 50, 130);
-  M5.Displays(0).drawString("OK", 155, 130);
-  M5.Displays(0).drawString("BAD", 265, 130);
+  M5.Displays(display).drawString("GOOD", 50, 130);
+  M5.Displays(display).drawString("OK", 155, 130);
+  M5.Displays(display).drawString("BAD", 265, 130);
 
-  M5.Displays(0).setTextDatum(CL_DATUM);
-  M5.Displays(0).setTextColor(TFT_PINK, TFT_SCREEN_BG);
-  M5.Displays(0).drawString("CO2 Air Quality", 90, 21);
-  M5.Displays(0).setTextColor(TFT_SKYBLUE, TFT_SCREEN_BG);
-  M5.Displays(0).drawString("Temperature", 90, 165);
-  M5.Displays(0).setTextColor(TFT_ORANGE, TFT_SCREEN_BG);
-  M5.Displays(0).drawString("Humidity", 250, 165);
-  M5.Displays(0).setTextColor(TFT_WHITE, TFT_SCREEN_BG);
-  M5.Displays(0).drawString("V" + String(VERSION) + " by " + String(AUTHOR), 222, 232);
+  M5.Displays(display).setTextDatum(CL_DATUM);
+  M5.Displays(display).setTextColor(TFT_PINK, TFT_SCREEN_BG);
+  M5.Displays(display).drawString("CO2 Air Quality", 90, 21);
+  M5.Displays(display).setTextColor(TFT_SKYBLUE, TFT_SCREEN_BG);
+  M5.Displays(display).drawString("Temperature", 90, 165);
+  M5.Displays(display).setTextColor(TFT_ORANGE, TFT_SCREEN_BG);
+  M5.Displays(display).drawString("Humidity", 250, 165);
+  M5.Displays(display).setTextColor(TFT_WHITE, TFT_SCREEN_BG);
+  M5.Displays(display).drawString("V" + String(VERSION) + " by " + String(AUTHOR), 222, 232);
 }
 
 // View battery
@@ -55,33 +55,33 @@ void viewBattery() {
     batteryLevelOld     = batteryLevel;
     batteryCharginglOld = batteryCharging;
 
-    M5.Displays(0).drawRect(293, 4, 21, 12, TFT_WHITE);
-    M5.Displays(0).drawRect(313, 7, 4, 6, TFT_WHITE);
+    M5.Displays(display).drawRect(293, 4, 21, 12, TFT_WHITE);
+    M5.Displays(display).drawRect(313, 7, 4, 6, TFT_WHITE);
 
     for (uint8_t i = 0; i < batteryLevel; i++) {
-      M5.Displays(0).drawGradientVLine(295 + i, 6, 8, TFT_GREEN, TFT_DARKGREEN);
+      M5.Displays(display).drawGradientVLine(295 + i, 6, 8, TFT_GREEN, TFT_DARKGREEN);
     }
 
-    M5.Displays(0).drawFastVLine(300, 5, 10, TFT_SCREEN_BG);
-    M5.Displays(0).drawFastVLine(306, 5, 10, TFT_SCREEN_BG);
+    M5.Displays(display).drawFastVLine(300, 5, 10, TFT_SCREEN_BG);
+    M5.Displays(display).drawFastVLine(306, 5, 10, TFT_SCREEN_BG);
 
-    M5.Displays(0).fillRect(260, 4, 32, 12, TFT_RED);
+    M5.Displays(display).fillRect(260, 4, 32, 12, TFT_RED);
 
     if (batteryCharging) {
-      M5.Displays(0).setTextColor(TFT_WHITE);
-      M5.Displays(0).setFont(&arial6pt7b);
-      M5.Displays(0).setTextDatum(CR_DATUM);
-      M5.Displays(0).setTextPadding(0);
+      M5.Displays(display).setTextColor(TFT_WHITE);
+      M5.Displays(display).setFont(&arial6pt7b);
+      M5.Displays(display).setTextDatum(CR_DATUM);
+      M5.Displays(display).setTextPadding(0);
       snprintf(buf, 8, "%s", "+");
     } else {
-      M5.Displays(0).setTextColor(TFT_WHITE);
-      M5.Displays(0).setFont(0);
-      M5.Displays(0).setTextDatum(CR_DATUM);
-      M5.Displays(0).setTextPadding(0);
+      M5.Displays(display).setTextColor(TFT_WHITE);
+      M5.Displays(display).setFont(0);
+      M5.Displays(display).setTextDatum(CR_DATUM);
+      M5.Displays(display).setTextPadding(0);
       snprintf(buf, 8, "%d%s", getBatteryLevel(), "%");
     }
-    M5.Displays(0).fillRect(260, 4, 32, 12, TFT_SCREEN_BG);
-    M5.Displays(0).drawString(buf, 290, 11);
+    M5.Displays(display).fillRect(260, 4, 32, 12, TFT_SCREEN_BG);
+    M5.Displays(display).drawString(buf, 290, 11);
   }
 }
 
@@ -101,11 +101,14 @@ void initLed() {
 // Init sensor SCD4x
 void initSensor() {
   Serial.begin(115200);
+  Wire.end();
   // while (!Serial)
   //   ;
 
+  Serial.printf(">>> %d\n", port);
+
   // Init I2C
-  switch (I2C) {
+  switch (port) {
     case I2C_PORT_A:
       Wire.begin();  // Port A
       break;
@@ -127,10 +130,10 @@ void initSensor() {
   Wire.endTransmission();
 
   // Wait for first measurement to be finished
-  M5.Displays(0).setFont(&arial6pt7b);
-  M5.Displays(0).setTextColor(TFT_WHITE, TFT_SCREEN_BG);
-  M5.Displays(0).setTextDatum(CC_DATUM);
-  M5.Displays(0).setTextPadding(180);
+  M5.Displays(display).setFont(&arial6pt7b);
+  M5.Displays(display).setTextColor(TFT_WHITE, TFT_SCREEN_BG);
+  M5.Displays(display).setTextDatum(CC_DATUM);
+  M5.Displays(display).setTextPadding(180);
 
   for (uint8_t i = 0; i < 5; i++) {
     leds[4 - i] = CRGB::DarkBlue;
@@ -138,9 +141,9 @@ void initSensor() {
 
     FastLED.show();
 
-    M5.Displays(0).drawString("Please wait - Init CO2 Sensor", 160, 90);
+    M5.Displays(display).drawString("Please wait - Init CO2 Sensor", 160, 90);
     delay(500);
-    M5.Displays(0).drawString("", 160, 90);
+    M5.Displays(display).drawString("", 160, 90);
     delay(500);
   }
 }
@@ -199,119 +202,26 @@ void led(void *pvParameters) {
   }
 }
 
-// Check button
-void button(void *pvParameters) {
-  uint8_t step = 2;
-  uint8_t min  = 4;
-  uint8_t max  = 255;
+// Clear Data
+void clearData() {
+}
 
-  uint8_t btnA = 0;
-  uint8_t btnB = 0;
-  uint8_t btnC = 0;
-
-  uint16_t brightnessOld = 0;
-
-  struct Button {
-    char name[16];   // name
-    int x;           // x
-    int y;           // y
-    int w;           // width
-    int h;           // height
-    int d;           // distance
-    boolean active;  // active, if true, check this button, else bypass
-    boolean read;    // read, if true, button is push, else false
-  };
-
-  Button myBtn[] = {
-    {"myBtnA", 0, 240, 100, 80, 1000, true, false},
-    {"myBtnB", 110, 240, 100, 80, 1000, true, false},
-    {"myBtnC", 220, 240, 100, 80, 1000, true, false},
-  };
-
-#if BOARD == CORES3
-  if (M5.getBoard() == m5::board_t::board_M5StackCoreS3) {
-    Button myBtn[] = {
-      {"myBtnA", 0, 160, 100, 80, 1000, true, false},
-      {"myBtnB", 110, 160, 100, 80, 1000, true, false},
-      {"myBtnC", 220, 160, 100, 80, 1000, true, false},
-    };
-  }
-#endif
-
-  for (;;) {
-    M5.update();
-
-    if (M5.getBoard() == m5::board_t::board_M5Stack || M5.getBoard() == m5::board_t::board_M5StackCore2 ||
-        M5.getBoard() == m5::board_t::board_M5StackCoreS3SE) {
-      step = 4;
-      min  = 4;
-      max  = 255;
-
-      btnA = M5.BtnA.isPressed();
-      btnB = M5.BtnB.isPressed();
-      btnC = M5.BtnC.isPressed();
-    } else if (M5.getBoard() == m5::board_t::board_M5StackCoreS3) {
-      step = 16;
-      min  = 64;
-      max  = 255;
-
-      auto t = M5.Touch.getDetail();
-      auto c = M5.Touch.getCount();
-
-      uint8_t limit = sizeof myBtn / sizeof myBtn[0];
-
-      int distanceBtn     = 0;
-      int distanceMin     = 1000;
-      int distanceCurrent = 1000;
-
-      if (c == 1) {
-        for (uint8_t i = 0; i < limit; i++) {
-          myBtn[i].read = false;
-          if (myBtn[i].active == true) {
-            distanceCurrent = (int)(sqrt(pow(t.x - (myBtn[i].x + (myBtn[i].w / 2)), 2) +
-                                         pow(t.y - (myBtn[i].y + (myBtn[i].h / 2)), 2)));
-            myBtn[i].d      = distanceCurrent;
-            if (distanceCurrent < distanceMin) {
-              distanceMin = distanceCurrent;
-              distanceBtn = i;
-            }
-          }
-        }
-
-        if (t.state == 1 || t.state == 3 || t.state == 5) {
-          myBtn[distanceBtn].read = true;
-        }
-      }
-
-      btnA = myBtn[0].read;
-      btnB = myBtn[1].read;
-      btnC = myBtn[2].read;
+// Clean some options settings
+char **cleanSettings() {
+  int size   = sizeof(settingsStandard) / sizeof(settingsStandard[0]);
+  char **tmp = (char **)malloc((size - 1) * sizeof(char *));
+  int j      = 0;
+  int k      = 0;
+  for (int i = 0; i < size; i++) {
+    if (strcmp(settingsStandard[i], "HDMI") == 0 && M5.getDisplayCount() == 1)
+      continue;
+    else {
+      tmp[j++] = settingsStandard[i];
+      k++;
     }
-
-    if (btnA || btnC) {
-      if (M5.getBoard() == m5::board_t::board_M5StackCoreS3) {
-        vTaskDelay(pdMS_TO_TICKS(100));
-      }
-
-      brightnessOld = brightness;
-
-      if (btnA) {
-        brightnessOld -= step;
-        brightnessOld = (brightnessOld <= min) ? min : brightnessOld;
-      } else if (btnC) {
-        brightnessOld += step;
-        brightnessOld = (brightnessOld >= max) ? max : brightnessOld;
-      } else if (btnB) {
-      }
-
-      if (brightnessOld != brightness) {
-        brightness = brightnessOld;
-        M5.Displays(0).setBrightness(brightness);
-        preferences.putUInt("brightness", brightness);
-        Serial.println(brightness);
-      }
-    }
-
-    vTaskDelay(pdMS_TO_TICKS(20));
   }
+
+  settingsLength = k;
+
+  return tmp;
 }
